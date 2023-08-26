@@ -1,4 +1,5 @@
 import React,{useState} from 'react';
+// import { Textfit } from 'react-textfit';
 import './App.css';
 import Wrapper from './Components/Wrapper';
 import Screen from './Components/Screen';
@@ -43,6 +44,46 @@ const App =()=>{
 const signClickHandler=(e)=>{
   setCalc({...calc,sign:e.target.innerHTML,res:!calc.num?calc.res:!calc.res?calc.num:toLocaleString(math(Number(removeSpaces(calc.res)),Number(removeSpaces(calc.num)),calc.sign)),num:0})
 }
+const equalsClickHandler=()=>{
+  if(calc.sign && calc.num){
+    setCalc({...calc,res:calc.num === "0" && calc.sign === "/" ?zeroDivisionError:toLocaleString(math(Number(removeSpaces(calc.res)),
+    Number(removeSpaces(calc.num)),calc.sign)),sign:"",num:0})
+  }
+}
+
+const invertClickHandler=()=>{
+  setCalc({...calc,num:calc.num?toLocaleString(removeSpaces(calc.num)*-1):0,res:calc.res?toLocaleString(removeSpaces(calc.res)*-1):0,sign:"",})
+}
+const precentClickHandler=()=>{
+  let num =calc.num?parseFloat(removeSpaces(calc.num)):0;
+  let res =calc.num?parseFloat(removeSpaces(calc.res)):0;
+  setCalc({...calc,num:(num /=Math.pow(100,1)),res:(res /= Math.pow(100,1)),sign:"",})
+}
+
+
+const resetClickHandler=()=>{
+  setCalc({...calc,sign:"",num:0,res:0})
+}
+
+const buttonClickHandler =(e,btn)=>{
+  btn==="C" ||calc.res ===zeroDivisionError?resetClickHandler():btn==="+-"?invertClickHandler():btn === "%"?precentClickHandler():btn ==="="
+  ?equalsClickHandler():btn === "/"||btn==="%"||btn==="-"||btn==="+"?signClickHandler(e):btn === "."?comaClickHandler(e):numClickHandler(e)
+}
+
+return(
+  <Wrapper>
+    <Screen value={calc.num?calc.num:calc.res}/>
+    <ButtonBox>
+      {btnValues.flat().map((btn,i)=>{
+        return(
+     
+          <Button key={i} className={btn === "="?"equals":"" } value={btn} onClick={(e)=>{
+            buttonClickHandler(e,btn)}}/>
+        )
+      })}
+    </ButtonBox>
+  </Wrapper>
+)
 
 }
 
