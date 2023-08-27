@@ -30,7 +30,7 @@ const App =()=>{
   const numClickHandler =(e)=>{
     e.preventDefault()
     const value = e.target.innerHTML;
-    if(removeSpaces(calc.num).length<16){
+    if (removeSpaces(calc.num).length < 16) {
       setCalc({...calc,num:removeSpaces(calc.num)%1 === 0 && !calc.num.toString().includes(".")
                           ? toLocaleString(Number(removeSpaces(calc.num+value)))
                         :toLocaleString(calc.num+value),res:!calc.sign?0:calc.res,})
@@ -65,9 +65,17 @@ const resetClickHandler=()=>{
   setCalc({...calc,sign:"",num:0,res:0})
 }
 
-const buttonClickHandler =(e,btn)=>{
-  btn==="C" ||calc.res ===zeroDivisionError?resetClickHandler():btn==="+-"?invertClickHandler():btn === "%"?precentClickHandler():btn ==="="
-  ?equalsClickHandler():btn === "/"||btn==="%"||btn==="-"||btn==="+"?signClickHandler(e):btn === "."?comaClickHandler(e):numClickHandler(e)
+const buttonClickHandler = (e,btn) => {
+   btn === "C" || calc.res === zeroDivisionError ? resetClickHandler() :
+   btn==="+-" ? invertClickHandler() :
+   btn === "%"?precentClickHandler():
+   btn ==="=" ?equalsClickHandler():
+   btn === "/"||
+   btn==="%"||
+   btn==="-"||
+   btn==="+" ? signClickHandler(e):
+   btn === "."?comaClickHandler(e):
+   numClickHandler(e)
 }
 
 return(
@@ -77,8 +85,8 @@ return(
       {btnValues.flat().map((btn,i)=>{
         return(
      
-          <Button key={i} className={btn === "="?"equals":"" } value={btn} onClick={(e)=>{
-            buttonClickHandler(e,btn)}}/>
+          <Button key={i} className={btn === "="?"equals":"" }
+           value={btn} onClick={(e)=>buttonClickHandler(e,btn)}/>
         )
       })}
     </ButtonBox>
