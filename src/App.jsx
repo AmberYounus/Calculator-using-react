@@ -30,6 +30,7 @@ const App =()=>{
   const numClickHandler =(e)=>{
     e.preventDefault()
     const value = e.target.innerHTML;
+    console.log(calc.num)
     if (removeSpaces(calc.num).length < 16) {
       setCalc({...calc,num:removeSpaces(calc.num)%1 === 0 && !calc.num.toString().includes(".")
                           ? toLocaleString(Number(removeSpaces(calc.num+value)))
